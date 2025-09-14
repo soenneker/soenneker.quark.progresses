@@ -1,0 +1,57 @@
+@using Soenneker.Quark.Enums.Colors
+@using Soenneker.Quark.Divs
+@inherits Soenneker.Quark.Components.Element
+
+<Div Class="progress-bar" @attributes="BuildAttributes()" role="progressbar" aria-valuenow="@Value" aria-valuemin="0" aria-valuemax="100">
+    @if (ShowLabel)
+    {
+        @($"{Value}%")
+    }
+    @ChildContent
+</Div>
+
+@code {
+    [Parameter]
+    public int Value { get; set; } = 0;
+
+    [Parameter]
+    public Color Color { get; set; } = Color.Primary;
+
+    [Parameter]
+    public bool Striped { get; set; }
+
+    [Parameter]
+    public bool Animated { get; set; }
+
+    [Parameter]
+    public bool ShowLabel { get; set; } = true;
+
+    private string? GetColorClass()
+    {
+        return $"bg-{Color.Value}";
+    }
+
+    protected override Dictionary<string, object> BuildAttributes()
+    {
+        Dictionary<string, object> attributes = base.BuildAttributes();
+
+        var baseClasses = "progress-bar";
+        string? colorClass = GetColorClass();
+
+        if (colorClass != null)
+            baseClasses = $"{baseClasses} {colorClass}";
+
+        if (Striped)
+            baseClasses = $"{baseClasses} progress-bar-striped";
+
+        if (Animated)
+            baseClasses = $"{baseClasses} progress-bar-animated";
+
+        attributes["class"] = AppendToClass(attributes.GetValueOrDefault("class")
+            ?.ToString(), baseClasses);
+
+        attributes["style"] = $"width: {Value}%";
+
+        return attributes;
+    }
+}
