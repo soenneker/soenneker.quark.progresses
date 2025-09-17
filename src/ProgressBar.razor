@@ -1,8 +1,8 @@
-@using Soenneker.Quark.Enums.Colors
 @using Soenneker.Quark.Divs
+@using Soenneker.Quark.Dtos.Colors
 @inherits Soenneker.Quark.Components.Element
 
-<Div Class="progress-bar" @attributes="BuildAttributes()" role="progressbar" aria-valuenow="@Value" aria-valuemin="0" aria-valuemax="100">
+<Div Class="progress-bar" @attributes="BuildAttributes()" role="progressbar" aria-valuenow="@Value" aria-valuemin="0" aria-valuemax="100" >
     @if (ShowLabel)
     {
         @($"{Value}%")
@@ -11,6 +11,7 @@
 </Div>
 
 @code {
+
     [Parameter]
     public int Value { get; set; } = 0;
 
@@ -28,7 +29,10 @@
 
     private string? GetColorClass()
     {
-        return $"bg-{Color.Value}";
+        if (Color.IsTheme)
+            return $"bg-{Color.Theme.Value}";
+
+        return null;
     }
 
     protected override Dictionary<string, object> BuildAttributes()
@@ -53,4 +57,5 @@
 
         return attributes;
     }
+
 }

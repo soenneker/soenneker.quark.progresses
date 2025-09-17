@@ -1,6 +1,6 @@
-@using Soenneker.Quark.Enums.Colors
 @using Soenneker.Quark.Enums.Size
 @using Soenneker.Quark.Divs
+@using Soenneker.Quark.Dtos.Colors
 @inherits Soenneker.Quark.Components.Element
 
 <Div Class="progress" @attributes="BuildAttributes()">
@@ -24,6 +24,7 @@
     {
         if (Size == Size.Small)
             return "progress-sm";
+
         if (Size == Size.Large)
             return "progress-lg";
         return null;
