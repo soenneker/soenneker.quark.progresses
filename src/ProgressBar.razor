@@ -47,8 +47,7 @@
         if (Animated)
             baseClasses = $"{baseClasses} progress-bar-animated";
 
-        attributes["class"] = AppendToClass(attributes.GetValueOrDefault("class")
-            ?.ToString(), baseClasses);
+        AppendToClassAttr(attributes, baseClasses);
 
         attributes["style"] = $"width: {Value}%";
 

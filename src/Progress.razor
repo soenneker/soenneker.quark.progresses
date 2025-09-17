@@ -39,8 +39,7 @@
         if (sizeClass != null)
             baseClasses = $"{baseClasses} {sizeClass}";
 
-        attributes["class"] = AppendToClass(attributes.GetValueOrDefault("class")
-            ?.ToString(), baseClasses);
+        AppendToClassAttr(attributes, baseClasses);
 
         return attributes;
     }
