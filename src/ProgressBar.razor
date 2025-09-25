@@ -1,5 +1,6 @@
 @using Soenneker.Quark.Divs
-@using Soenneker.Quark.Dtos.Colors
+@using Soenneker.Quark.Components.Builders
+@using Soenneker.Quark.Components.Builders.Colors
 @inherits Soenneker.Quark.Components.Element
 
 <Div Class="progress-bar" @attributes="BuildAttributes()" role="progressbar" aria-valuenow="@Value" aria-valuemin="0" aria-valuemax="100" >
@@ -16,7 +17,7 @@
     public int Value { get; set; } = 0;
 
     [Parameter]
-    public Color Color { get; set; } = Color.Primary;
+    public CssValue<ColorBuilder>? Color { get; set; }
 
     [Parameter]
     public bool Striped { get; set; }
@@ -27,23 +28,11 @@
     [Parameter]
     public bool ShowLabel { get; set; } = true;
 
-    private string? GetColorClass()
-    {
-        if (Color.IsTheme)
-            return $"bg-{Color.Theme.Value}";
-
-        return null;
-    }
-
     protected override Dictionary<string, object> BuildAttributes()
     {
         Dictionary<string, object> attributes = base.BuildAttributes();
 
         var baseClasses = "progress-bar";
-        string? colorClass = GetColorClass();
-
-        if (colorClass != null)
-            baseClasses = $"{baseClasses} {colorClass}";
 
         if (Striped)
             baseClasses = $"{baseClasses} progress-bar-striped";
@@ -53,7 +42,31 @@
 
         AppendToClassAttr(attributes, baseClasses);
 
-        attributes["style"] = $"width: {Value}%";
+        // Handle color styling
+        if (Color is not null && !Color.Value.IsEmpty)
+        {
+            string v = Color.Value.ToString().Trim();
+
+            if (Color.Value.IsCssClass)
+            {
+                if (v.StartsWith("bg-", StringComparison.Ordinal))
+                    AppendToClassAttr(attributes, v);
+                else
+                    AppendToClassAttr(attributes, $"bg-{v}");
+            }
+            else
+            {
+                // Literal CSS value → straight style
+                if (!attributes.TryGetValue("style", out var existing))
+                    attributes["style"] = $"background-color:{v};width: {Value}%;";
+                else
+                    attributes["style"] = $"{existing}background-color:{v};width: {Value}%;";
+            }
+        }
+        else
+        {
+            attributes["style"] = $"width: {Value}%";
+        }
 
         return attributes;
     }
