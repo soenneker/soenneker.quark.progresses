@@ -44,6 +44,6 @@
 
     <ItemGroup>
         <PackageReference Include="Soenneker.Quark.Components.Builders" Version="3.0.6" />
-        <PackageReference Include="Soenneker.Quark.Divs" Version="3.0.14" />
+        <PackageReference Include="Soenneker.Quark.Divs" Version="3.0.18" />
     </ItemGroup>
 </Project>
