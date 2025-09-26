@@ -1,6 +1,3 @@
-@using Soenneker.Quark.Divs
-@using Soenneker.Quark.Components.Builders
-@using Soenneker.Quark.Components.Builders.Colors
 @inherits Soenneker.Quark.Element
 
 <Div Class="progress-bar" @attributes="BuildAttributes()" role="progressbar" aria-valuenow="@Value" aria-valuemin="0" aria-valuemax="100" >
@@ -12,6 +9,7 @@
 </Div>
 
 @code {
+	public override string? Name { get; set; } = "ProgressBar";
 
     [Parameter]
     public int Value { get; set; } = 0;

@@ -1,7 +1,4 @@
-@using Soenneker.Quark.Components.Builders
-@using Soenneker.Quark.Components.Builders.Colors
-@using Soenneker.Quark.Enums.Size
-@using Soenneker.Quark.Divs
+@using Soenneker.Quark.Enums
 
 @inherits Soenneker.Quark.Element
 
@@ -10,9 +7,10 @@
 </Div>
 
 @code {
+	public override string? Name { get; set; } = "Progress";
 
     [Parameter]
-    public CssValue<ColorBuilder> Color { get; set; } = Components.Builders.Colors.Color.Primary;
+    public CssValue<ColorBuilder> Color { get; set; } = Quark.Color.Primary;
 
     [Parameter]
     public Size Size { get; set; } = Size.Default;
