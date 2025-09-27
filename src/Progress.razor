@@ -13,7 +13,7 @@
     public CssValue<ColorBuilder> Color { get; set; } = Quark.Color.Primary;
 
     [Parameter]
-    public Size Size { get; set; } = Size.Default;
+    public CssValue<SizeBuilder>? Size { get; set; } = Size.Default;
 
     [Parameter]
     public bool Striped { get; set; }
@@ -23,10 +23,10 @@
 
     private string? GetSizeClass()
     {
-        if (Size == Size.Small)
+        if (Size?.ToString() == "size-sm")
             return "progress-sm";
 
-        if (Size == Size.Large)
+        if (Size?.ToString() == "size-lg")
             return "progress-lg";
         return null;
     }
